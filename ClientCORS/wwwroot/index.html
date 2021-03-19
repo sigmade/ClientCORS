@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Client CORS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+    <div class="col-6">
+        <input class="form-control m-4" id="url" type="text" placeholder="URL" value="http://localhost:4200" />
+        <input class="form-control m-4" id="method" type="text" placeholder="Method" value="GET" />
+        <input class="form-control m-4" id="token" type="text" placeholder="Token" />
+        <button type="button" class="btn btn-primary m-4" id="btn" value="Send">Send</button>
+    </div>
+    <h3 class="m-4">Result :</h3>
+    <div class="m-4" id="result">
+    </div>
+    <div class="m-4" id="error-block-id">
+    </div>
+    <script>
+        var btn = document.getElementById("btn");
+        var result = document.getElementById("result");
+        var request = new XMLHttpRequest();
+
+        btn.addEventListener("click", function (e) {
+            request.open(document.getElementById("method").value, document.getElementById("url").value);
+            request.onreadystatechange = reqReadyStateChange;
+            request.setRequestHeader("Authorization", "Bearer " + document.getElementById("token").value);
+            request.send();
+        });
+
+        function reqReadyStateChange() {
+            if (request.readyState == 4) {
+                var status = request.status;
+                if (status == 200)
+                    result.innerText = request.responseText;
+                else
+                    result.innerText = request.statusText;
+            }
+        }
+    </script>
+</body>
+</html>
